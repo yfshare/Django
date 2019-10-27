@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+
+{% block title %}工单申请{% endblock %}
+
+{% block breadcrunb %}
+  <h1>
+      通用工单系统
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">工单申请</li>
+  </ol>
+{% endblock %}
+
+{% block content %}
+<!-- Main row -->
+<div class="row">
+<!-- Left col -->
+<div class="col-md-12">
+<!-- TABLE: LATEST ORDERS -->
+<div class="box box-info">
+
+<div class="box-header with-border">
+  <h3 class="box-title">工单申请</h3>
+  <div class="box-tools pull-right">
+    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+    </button>
+    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+  </div>
+</div>
+<!-- /.box-header -->
+
+<div class="box-body">
+    <form method="post" action="{% url 'workorder:apply' %}" class="form-horizontal" enctype="multipart/form-data">
+        {% if errmsg %}
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                {{ errmsg | safe }}
+            </div>
+        {% endif %}
+
+        <div class="form-group"><label class="col-sm-2 control-label">工单标题：</label>
+            <div class="col-sm-8">
+                {{ forms.title }}
+                {% if forms.title.errors %}<span  style="color:red">{{ forms.title.errors }}</span>{% endif %}
+            </div>
+        </div>
+
+        <div class="form-group"><label class="col-sm-2 control-label">详细内容：</label>
+            <div class="col-sm-8">
+                {# <textarea class="form-control" name ="order_contents" rows="8" placeholder="工单详细内容"></textarea>#}
+                {{ forms.order_contents }}
+                {% if forms.order_contents.errors %}<span  style="color:red">{{ forms.order_contents.errors }}</span>{% endif %}
+            </div>
+        </div>
+
+        <div class="form-group"><label class="col-sm-2 control-label">指派人：</label>
+            <div class="col-sm-8">
+                {{ forms.assign_id }}
+                {% if forms.assign_id.errors %}<span  style="color:red">{{ forms.assign_id.errors }}</span>{% endif %}
+            </div>
+        </div>
+
+        <div class="form-group"><label class="col-sm-2 control-label">附件(按需)：</label>
+            <div class="col-sm-8">
+                {{ forms.orderfiles }}
+                {% if forms.orderfiles.errors %}<span  style="color:red">{{ forms.orderfiles.errors }}</span>{% endif %}
+            </div>
+        </div>
+
+         <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+                <button id="submit_button" class="btn btn-primary" type="submit">申请</button>
+                <button id="reset_button" class="btn btn-white" type="reset">取消</button>
+            </div>
+         </div>
+        </form>
+
+</div>
+
+</div>
+</div>
+</div>
+{% endblock %}
+
+
+{% block css %}
+{#    <link rel="stylesheet" type="text/css" href="/static/markdown/css/bootstrap.min.css">#}
+	<link rel="stylesheet" type="text/css" href="/static/markdown/css/bootstrap-markdown.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/markdown/font-awesome/css/font-awesome.min.css">
+
+{% endblock %}
+{% block js %}
+
+
+ <!-- 该jquery文件必须在bootstrap.min.js之前引入 -->
+{#    <script src="/static/markdown/js/jquery.min.js"></script>#}
+{#    <script src="/static/markdown/js/bootstrap.min.js"></script>#}
+
+{#    <script src="/static/markdown_prever/js/ace.js"></script>#}
+{#    <script src="/static/markdown_prever/js/marked.min.js"></script>#}
+
+{#    预览#}
+    <script src="/static/markdown/js/marked.js"></script>
+{#    <script src="/static/markdown_prever/dist/js/bootstrap-markdown-editor.js"></script>#}
+
+    <script src="/static/markdown/js/bootstrap-markdown.js"></script>
+    <script src="/static/markdown/js/bootstrap-markdown.fr.js"></script>
+    <script type="text/javascript">
+    (function ($) {
+      $.fn.markdown.messages.zh = {
+        'Bold': "粗体",
+        'Italic': "斜体",
+        'Heading': "标题",
+        'URL/Link': "链接",
+        'Image': "图片",
+        'List': "列表",
+        'Unordered List': "无序列表",
+        'Ordered List': "有序列表",
+        'Code': "代码",
+        'Quote': "引用",
+        'Preview': "预览",
+        'strong text': "粗体",
+        'emphasized text': "强调",
+        'heading text': "标题",
+        'enter link description here': "输入链接说明",
+        'Insert Hyperlink': "URL地址",
+        'enter image description here': "输入图片说明",
+        'Insert Image Hyperlink': "图片URL地址",
+        'enter image title here': "在这里输入图片标题",
+        'list text here': "这里是列表文本",
+        'code text here': "这里输入代码",
+        'quote here': "这里输入引用文本"
+      };
+    }(jQuery));
+    $("#order_contents").markdown({
+    	autofocus: false,
+        savable:false,
+    	language: 'zh',
+    });
+    $('#reset_button').click(function(){
+       window.history.back();
+    })
+    </script>
+
+
+{% endblock %}

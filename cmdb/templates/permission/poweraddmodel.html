@@ -1,0 +1,58 @@
+<!--添加用户模态窗 -->
+<div class="modal fade" tabindex="-1"  id="power_add_modal" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+         <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             <h4 class="modal-title">添加权限</h4>
+        </div>
+
+        <div class="modal-body form-inline">
+             <form  class="form-horizontal" id = "AddForm">
+                <div class="form-group">
+                    <label style="width:100px;" class="control-label">权限名：</label>
+                    <input style="width:400px;" type="text" name="codename" class="form-control" required="">
+                </div>
+                <hr>
+
+                <div class="form-group">
+                    <label style="width:100px;" class="control-label">权限描述：</label>
+                    <input style="width:400px;" type="text" name="name" class="form-control" required="">
+                </div>
+                <hr>
+
+                <div class="form-group">
+                    <label style="width:100px;" class="control-label">关联Model：</label>
+                    <select style="width:400px;" name="content_type_id" class="form-control">
+                    <option value="">请选择</option>
+                    {% for content_type in ContentType_object_list %}
+                        <option value="{{ content_type.id }}">{{ content_type }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <hr>
+{#                 <div class="form-group">#}
+{##}
+{#            <div class="form-group">#}
+{#                <select name="content_type_id" class="form-control">#}
+{#                    {% for content_type in ContentType_object_list %}#}
+{##}
+{#                        <option value="{{ content_type.id }}">{{ content_type }}</option>#}
+{##}
+{#                    {% endfor %}#}
+{#                </select>#}
+{#            </div>#}
+{##}
+{#        </div>#}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="submit_button">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+             </form>
+
+         </div>
+    </div>
+</div>
+</div>
+<!--添加用户模态窗结束 -->

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load tags %}   <!--导入模版过滤器-->
+{% block title %}添加用户{% endblock %}
+
+{% block breadcrunb %}
+  <h1>
+  用户管理系统
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">添加用户</li>
+  </ol>
+{% endblock %}
+
+{% block content %}
+<!-- Main row -->
+<div class="row">
+<!-- Left col -->
+<div class="col-md-12">
+<!-- TABLE: LATEST ORDERS -->
+<div class="box box-info">
+
+<div class="box-header with-border">
+  <h3 class="box-title">添加用户</h3>
+  <div class="box-tools pull-right">
+    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+    </button>
+    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+  </div>
+</div>
+<!-- /.box-header -->
+
+<div class="box-body">
+    {% if msg %}
+        <div class="alert alert-danger">{{ msg }}</div>
+    {% endif %}
+    <form method="post" action="{% url 'users:add_user' %}" class="form-horizontal">
+        {% if msg %}
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                {{ msg | safe }}
+            </div>
+        {% elif errmsg %}
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                {{ errmsg | safe }}
+            </div>
+        {% endif %}
+
+        <div class="form-group"><label class="col-sm-2 control-label">用户名：</label>
+            <div class="col-sm-8">
+                <input type="text" name="username" class="form-control" required="" style="width: 450px">
+            </div>
+        </div>
+
+        <div class="form-group"><label class="col-sm-2 control-label">中文名：</label>
+            <div class="col-sm-8">
+                <input type="text" name="name_cn" class="form-control" required="" style="width: 450px">
+            </div>
+        </div>
+
+        <div class="form-group"><label class="col-sm-2 control-label">手机：</label>
+            <div class="col-sm-8">
+                <input type="text" name="phone" class="form-control" required="" style="width: 450px" required pattern="^1[34578][0-9]{9}$" oninvalid="setCustomValidity('手机号格式不正确')" oninput="setCustomValidity('')">
+            </div>
+        </div>
+
+        <div class="form-group"><label class="col-sm-2 control-label">邮箱：</label>
+            <div class="col-sm-8">
+                <input type="text" name="email" class="form-control" style="width: 450px" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" oninvalid="setCustomValidity('Email 格式不正确')" oninput="setCustomValidity('')">
+            </div>
+        </div>
+
+<!--        <div class="form-group"><label class="col-sm-2 control-label">组：</label>-->
+<!--            <div class="col-sm-8">-->
+<!--                <select name="groupname" class="select2_demo_3 form-control" style="width: 450px">-->
+<!--                    <option selected="selected">&#45;&#45;&#45;&#45;请选择&#45;&#45;&#45;&#45;</option>-->
+<!--                    {% for group in groups %}-->
+<!--                        <option value="{{ group }}">{{ group }}</option>-->
+<!--                    {% endfor %}-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="submit_button">确认</button>
+            <button class="btn full-width m-b" type="reset" onclick="window.location.href ='{% url 'users:user_list' %}'">取消</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

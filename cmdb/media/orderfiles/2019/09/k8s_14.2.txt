@@ -1,0 +1,36 @@
+master1,master2,master3,node1,node2均需要关闭selinux和firewalld,swap
+[root@master1 ~]# systemctl stop firewalld
+[root@master1 ~]# systemctl disable firewalld
+[root@master1 ~]# systemctl stop NetworkManager
+[root@master1 ~]# systemctl disable NetworkManager
+[root@master1 ~]# swapoff -a
+[root@master1 ~]# getenforce 
+Disabled
+[root@master1 ~]# iptables -F
+[root@master1 ~]# grep 'swap' /etc/fstab 
+#/dev/mapper/centos-swap swap                    swap    defaults        0 0
+[root@master1 ~]# tail -3 /etc/sysctl.d/99-sysctl.conf 
+net.ipv4.ip_forward = 1
+[root@master1 ~]# sysctl -p
+[root@master1 ~]#cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime -a
+ntpdate time.windows.com
+[root@master1 ~]# crontab -l
+* */3 * * * ntpdate s1a.time.edu.cn &> /dev/null
+[root@master1 ~]#
+[root@master1 ~]# tail -5 /etc/hosts
+192.168.230.201 master1.example.com master1
+192.168.230.202 master2.example.com master2
+192.168.230.203 master3.example.com master3
+192.168.230.204 node1.example.com node1
+192.168.230.205 node2.example.com node2
+[root@master1 ~]
+[root@master1 ~]# yum -y install https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
+
+在node1/node2安装docker引擎
+[root@node1 ~]# yum remove docker docker-common docker-selinux docker-engine -y
+[root@node1 ~]# yum install -y yum-utils device-mapper-persistent-data lvm2
+[root@node1 ~]# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+[root@node1 ~]# yum-config-manager --disable docker-ce-nightly
+[root@node1 ~]# yum -y install docker-ce docker-ce-cli containerd.io
+[root@node1 ~]# systemctl enable docker
+[root@node1 ~]# systemctl start docker
